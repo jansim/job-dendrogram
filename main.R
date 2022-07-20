@@ -81,7 +81,7 @@ ggraph(mygraph, layout = 'dendrogram', circular = TRUE) +
   geom_node_text(aes(x = x*text_pos_factor, y=y*text_pos_factor, filter = leaf, label=name, angle = angle + 15, hjust=hjust, colour=group), size=2.7, alpha=1) +
   geom_node_point(aes(filter = leaf, x = x*node_pos_factor, y=y*node_pos_factor, colour=group, size=value, alpha=0.2)) +
   scale_colour_manual(values= rep( brewer.pal(9,"Paired") , 30)) +
-  scale_size_continuous( range = c(0.1,10) ) +
+  scale_size_continuous( range = c(3,20)) +
   theme_void() +
   theme(
     legend.position="none",
