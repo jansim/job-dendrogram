@@ -28,17 +28,22 @@ for (n in 1:n_digits) {
 edges <- all_edges
 
 # Replace To with label
+rename_by_code <- function(column_with_code) {
+  grps$preferredLabel[match(column_with_code, grps$code)]
+}
 
-# leaf_edges <- nchar(edges$to) == n_digits
+leaf_edges <- nchar(edges$to) == n_digits
 # edges$to[leaf_edges] <- paste(edges$to, grps$preferredLabel[match(edges$to, grps$code)])[leaf_edges]
-# edges$to[leaf_edges] <- grps$preferredLabel[match(edges$to, grps$code)][leaf_edges]
 
 # create a vertices data.frame. One line per object of our hierarchy
 all_nodes <- unique(c(as.character(edges$from), as.character(edges$to)))
 leaf_nodes <- nchar(all_nodes) == n_digits
 
 all_node_counts <- as.numeric(code_counts[all_nodes])
-# all_nodes[leaf_nodes] <- grps$preferredLabel[match(all_nodes, grps$code)][leaf_nodes]
+
+# Rename edges and nodes
+edges$to[leaf_edges] <- rename_by_code(edges$to)[leaf_edges]
+all_nodes[leaf_nodes] <- rename_by_code(all_nodes)[leaf_nodes]
 
 vertices = data.frame(
   name = all_nodes,
