@@ -1,0 +1,4 @@
+.Rhistory
+*.pdf
+data/
+.Rproj.user
