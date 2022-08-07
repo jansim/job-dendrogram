@@ -60,7 +60,7 @@ vertices$id=NA
 myleaves=which(is.na( match(vertices$name, edges$from) ))
 nleaves=length(myleaves)
 vertices$id[ myleaves ] = seq(1:nleaves)
-vertices$angle= 90 - 360 * vertices$id / nleaves
+vertices$angle= 90 - 360 * vertices$id / nleaves + 10
 
 # calculate the alignment of labels: right or left
 # If I am on the left part of the plot, my labels have currently an angle < -90
@@ -83,7 +83,7 @@ margin_bottom <- 50
 ggraph(mygraph, layout = 'dendrogram', circular = TRUE) +
   geom_edge_diagonal(colour="grey") +
   scale_edge_colour_distiller(palette = "RdPu") +
-  geom_node_text(aes(x = x*text_pos_factor, y=y*text_pos_factor, filter = leaf, label=name, angle = angle + 15, hjust=hjust, colour=group), size=2.7, alpha=1) +
+  geom_node_text(aes(x = x*text_pos_factor, y=y*text_pos_factor, filter = leaf, label=name, angle = angle, hjust=hjust, colour=group), size=2.7, alpha=1) +
   geom_node_point(aes(filter = leaf, x = x*node_pos_factor, y=y*node_pos_factor, colour=group, size=value, alpha=0.2)) +
   scale_colour_manual(values= rep( brewer.pal(9,"Paired") , 30), guide="none") +
   scale_alpha(guide="none") +
