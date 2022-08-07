@@ -123,7 +123,7 @@ ggraph(mygraph, layout = 'dendrogram', circular = TRUE) +
   ) +
   labs(
     caption=paste(
-      "<span style = 'font-size:25pt'>Classification of Occupations</span>",
+      "<span style = 'font-size:30pt'>Classification of Occupations</span>",
       "According to the European & International classification systems **ESCO**/**ISCO**.",
       "Size of dots corresponds to the number of ESCO occupations falling within a certain class ",
       "of the International Standard Classification of Occupations (**ISCO**).",
@@ -136,5 +136,5 @@ ggraph(mygraph, layout = 'dendrogram', circular = TRUE) +
   )
 
 # Poster: width = 59.4, height = 84.1
-ggsave("plot.pdf", units = "cm", width = 59.4, height = 70)
+ggsave("plot.pdf", units = "cm", width = 59.4, height = 66)
 
