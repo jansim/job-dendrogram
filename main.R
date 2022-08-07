@@ -109,12 +109,14 @@ ggraph(mygraph, layout = 'dendrogram', circular = TRUE) +
       size = 15,
       hjust = 0.05,
       margin = margin(
-        t = margin_top,
+        t = -30,
         b = margin_bottom,
         l = margin_side
       )
     ),
     plot.caption.position =  "plot",
+    legend.title=element_text(size=15),
+    legend.text=element_text(size=15),
     legend.margin=margin(
       t = margin_top,
       b = margin_bottom,
@@ -123,10 +125,11 @@ ggraph(mygraph, layout = 'dendrogram', circular = TRUE) +
   ) +
   labs(
     caption=paste(
-      "<span style = 'font-size:30pt'>Classification of Occupations</span>",
+      "<span style = 'font-size:35pt'>Classification of Occupations</span>",
       "According to the European & International classification systems **ESCO**/**ISCO**.",
       "Size of dots corresponds to the number of ESCO occupations falling within a certain class ",
       "of the International Standard Classification of Occupations (**ISCO**).",
+      "Tree splits / lines correspond to the nested categories within the ISCO.",
       "",
       "<span style = 'color:darkgrey;'>by: Jan Simson (@_jansimson)</span>",
       "<span style = 'color:darkgrey;'>data: This publication uses the ESCO classification of the European Commission (data.europa.eu/esco/)</span>",
@@ -136,5 +139,9 @@ ggraph(mygraph, layout = 'dendrogram', circular = TRUE) +
   )
 
 # Poster: width = 59.4, height = 84.1
-ggsave("plot.pdf", units = "cm", width = 59.4, height = 66)
+width <- 59.4
+height <- 66
+ggsave("esco-dendrogram.pdf", units = "cm", width = width, height = height)
+ggsave("esco-dendrogram.png", units = "cm", width = width, height = height)
+ggsave("esco-dendrogram.jpg", units = "cm", width = width, height = height)
 
