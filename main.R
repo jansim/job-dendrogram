@@ -2,6 +2,7 @@
 library(ggraph)
 library(igraph)
 library(tidyverse)
+library(ggtext)
 library(RColorBrewer)
 
 occ <- readODS::read_ods("data/ESCO_v1.1/occupations_en.ods")
@@ -74,31 +75,66 @@ mygraph <- graph_from_data_frame(edges, vertices=vertices)
 node_pos_factor <- 1.035
 text_pos_factor <- 1.07
 
+margin_side <- 50
+margin_top <- 0
+margin_bottom <- 50
+
 # Make the plot
 ggraph(mygraph, layout = 'dendrogram', circular = TRUE) +
   geom_edge_diagonal(colour="grey") +
   scale_edge_colour_distiller(palette = "RdPu") +
   geom_node_text(aes(x = x*text_pos_factor, y=y*text_pos_factor, filter = leaf, label=name, angle = angle + 15, hjust=hjust, colour=group), size=2.7, alpha=1) +
   geom_node_point(aes(filter = leaf, x = x*node_pos_factor, y=y*node_pos_factor, colour=group, size=value, alpha=0.2)) +
-  scale_colour_manual(values= rep( brewer.pal(9,"Paired") , 30)) +
+  scale_colour_manual(values= rep( brewer.pal(9,"Paired") , 30), guide="none") +
+  scale_alpha(guide="none") +
   scale_size_continuous( range = c(3,20)) +
   theme_void() +
   theme(
-    legend.position="none",
+    legend.position=c(1,0),
+    legend.direction="horizontal",
+    legend.justification='right',
     plot.margin=unit(c(0,0,0,0),"cm"),
   ) +
-  expand_limits(x = c(-1.3, 1.3), y = c(-1.3, 1.3))
-
-# Also add attribution to graph code
-  # labs(
-  #   caption="by Jan Simson\nTwitter: _jansimson\nData: This publication uses the ESCO classification of the European Commission. http://data.europa.eu/esco/"
-  # )
-
-# grid::grid.text("Classifications of Occupation", x = unit(0, "npc"), y = unit(0, "npc"),
-#                 hjust=0, vjust = -0.5, gp = grid::gpar(cex=1.2))
-# grid::grid.text("According to the European & International classification systems ESCO/ISCO.\nSize of dots corresponds to the number of occupations falling within a certain class.", x = unit(0, "npc"), y = unit(0, "npc"),
-#                 hjust=0, vjust = -0.5, gp = grid::gpar(cex=1.0))
+  guides(
+    size = guide_legend(
+      title="Number of Occupations in Category",
+      # Change how the legend is displayed
+      override.aes = list(color = "lightgrey", pch=21)
+    )
+  ) +
+  expand_limits(x = c(-1.3, 1.3), y = c(-1.3, 1.3)) +
+  theme(
+    aspect.ratio = 1,
+    plot.caption = element_textbox_simple(
+      size = 15,
+      hjust = 0.05,
+      margin = margin(
+        t = margin_top,
+        b = margin_bottom,
+        l = margin_side
+      )
+    ),
+    plot.caption.position =  "plot",
+    legend.margin=margin(
+      t = margin_top,
+      b = margin_bottom,
+      r = margin_side
+    )
+  ) +
+  labs(
+    caption=paste(
+      "<span style = 'font-size:25pt'>Classification of Occupations</span>",
+      "According to the European & International classification systems **ESCO**/**ISCO**.",
+      "Size of dots corresponds to the number of ESCO occupations falling within a certain class ",
+      "of the International Standard Classification of Occupations (**ISCO**).",
+      "",
+      "<span style = 'color:darkgrey;'>by: Jan Simson (@_jansimson)</span>",
+      "<span style = 'color:darkgrey;'>data: This publication uses the ESCO classification of the European Commission (data.europa.eu/esco/)</span>",
+      "<span style = 'color:darkgrey;'>code: Built on top of a code sample from the R Graph Gallery (r-graph-gallery.com)</span>",
+      sep="<br>"
+    )
+  )
 
 # Poster: width = 59.4, height = 84.1
-ggsave("plot.pdf", units = "cm", width = 59.4, height = 59.4)
+ggsave("plot.pdf", units = "cm", width = 59.4, height = 70)
 
